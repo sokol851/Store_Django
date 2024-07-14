@@ -3,9 +3,9 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def catalog():
-    pass
+def index(request):
+    return render(request, 'main/index.html')
 
 
-def contacts():
-    pass
+def contacts(request):
+    return render(request, 'main/contacts.html')
