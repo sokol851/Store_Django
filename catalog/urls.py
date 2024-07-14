@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.urls import path
 
-from catalog.views import catalog, contacts
+from catalog.views import index, contacts, feedback
 
 app_name = 'catalog'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', catalog),
-    path('/contacts', contacts)
+    path('', index),
+    path('contacts/', contacts),
+    path('feedback/', feedback),
 ]
