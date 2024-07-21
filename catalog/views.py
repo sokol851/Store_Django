@@ -1,14 +1,18 @@
 from django.shortcuts import render
+from .models import Contacts, Product
 
-
-# Create your views here.
 
 def index(request):
-    return render(request, 'main/index.html')
+    # products = Product.objects.all()
+    products = Product.objects.all().order_by('-id')[:5]
+    context = {'products': products}
+    return render(request, 'main/index.html', context)
 
 
 def contacts(request):
-    return render(request, 'main/contacts.html')
+    about = Contacts.objects.all()
+    context = {'about': about}
+    return render(request, 'main/contacts.html', context)
 
 
 def feedback(request):
