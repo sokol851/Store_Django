@@ -49,34 +49,18 @@
         </div>
         <div class="col-9">
             <div class="text-center bg-secondary-subtle form-control">
-                <h3>Выгодные предложения!</h3>
+                <h3>ТОП-5 Новинок!</h3>
                 <div id="carouselExample" class="carousel slide">
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            {% load static %}
-                            <center><img
-                                    src="{% static 'images/1.jpg' %}"
-                                    class="d-block w-30" alt="SSD Диск 512 ГБ"></center>
-                            <h3>SSD Диск 512 ГБ</h3>
+                        {%for serv in products%}
+                        <div class="carousel-item active"><center>
+                            <h5>Категория: {{serv.category.name}}</h5>
+                            <img width = "400" height = "300" src='media/{{serv.preview}}' class="d-block w-30">
+                            <h3>{{serv.name}}</h3>
+                            <h5>{{serv.description}}</h5>
+                            <h4>{{serv.price}} руб.</h4></center>
                         </div>
-                        <div class="carousel-item active">
-                            <center><img
-                                    src="{% static 'images/1.jpg' %}"
-                                    class="d-block w-30" alt="SSD Диск 1 ТБ"></center>
-                            <h3>SSD Диск 1 ТБ</h3>
-                        </div>
-                        <div class="carousel-item active">
-                            <center><img
-                                    src="{% static 'images/1.jpg' %}"
-                                    class="d-block w-30" alt="SSD Диск 256 ГБ"></center>
-                            <h3>SSD Диск 256 ГБ</h3>
-                        </div>
-                        <div class="carousel-item active">
-                            <center><img
-                                    src="{% static 'images/1.jpg' %}"
-                                    class="d-block w-30" alt="SSD Диск 2 ТБ"></center>
-                            <h3>SSD Диск 2 ТБ</h3>
-                        </div>
+                        {%endfor%}
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
                             data-bs-slide="prev">

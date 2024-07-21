@@ -52,23 +52,18 @@
                 <div class="card bg-secondary-subtle text-body-color mb-3">
                     <div class="card-header">Контакты</div>
                     <div class="card-body">
-                        <h5 class="card-title mt-3 form-control">Адрес склада: 192102, г. Санкт-Петербург, ул. Фучика,
-                            д. 9 <br>
-                            (выдача заказов по этому адресу не производится)</h5>
-                        <h5 class="card-title mt-3 form-control">Юридический адрес: 192102, г. Санкт-Петербург, Улица
-                            Правды, дом 10, офис 202</h5>
+                        {% for serv in about %}
+                        <h5 class="card-title mt-3 form-control">Адрес склада: {{serv.warehouse_address}}</h5>
+                        <h5 class="card-title mt-3 form-control">Юридический адрес: {{serv.legal_address}}</h5>
                         <div class="row mt-5">
                             <div class="col-6">
-                                <p class="card-text">Телефон:
-                                    +7 (123) 456-78-90 <br>
-                                    Электронная почта:
-                                    sale@saleshop.ru</p>
+                                <p class="card-text">Телефон: {{serv.phone}} <br>
+                                    Электронная почта: {{serv.email}}</p>
                             </div>
                             <div class="col-6"><p>
-                                Режим работы
-                                пн-вс: 10.00 до 21.00</p>
+                                Режим работы: {{serv.working_hours}}</p>
                             </div>
-
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
