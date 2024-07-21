@@ -9,17 +9,17 @@ class Product(models.Model):
     preview = models.ImageField(upload_to='catalog/', verbose_name='Изображение', **NULLABLE)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Категория')
     price = models.IntegerField(verbose_name='Цена за покупку')
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Дата создания')
-    updated_at = models.DateTimeField(auto_now=True, blank=True, verbose_name='Дата последнего изменения')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
 
     def __str__(self):
-        return (f'Наименование: {self.name}\n'
-                f'Описание: {self.description}\n'
-                f'Изображение: {self.description}\n'
-                f'Категория: {self.category}\n'
-                f'Цена: {self.price}\n'
-                f'Дата создания: {self.created_at}\n'
-                f'Дата изменения: {self.updated_at}')
+        return (f'Название: {self.name} / '
+                f'Описание: {self.description} / '
+                f'Превью: {self.preview} / '
+                f'Категория: {self.category} / '
+                f'Цена: {self.price} / '
+                f'Создан: {self.created_at} / '
+                f'Изменён: {self.updated_at}')
 
     class Meta:
         verbose_name = 'Продукт'
@@ -32,7 +32,7 @@ class Category(models.Model):
     description = models.CharField(max_length=100, verbose_name='Описание')
 
     def __str__(self):
-        return (f'Наименование: {self.name}\n'
+        return (f'Наименование: {self.name} / '
                 f'Описание: {self.description}')
 
     class Meta:
