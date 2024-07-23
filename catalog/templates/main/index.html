@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load refactor_url %}
 {% block content %}
 <div class="text-center bg-secondary-subtle form-control">
     <h3>ТОП Новинок!</h3>
@@ -34,7 +35,7 @@
                     <div class="col-6">
                         <a href="{% url 'catalog:product_page' pk=product.pk %}"><h2>{{product.name}}</h2></a>
                         <a href="{% url 'catalog:product_page' pk=product.pk %}"><img width="400" height="300"
-                                                                                      src='media/{{product.preview}}'
+                                                                                      src="{%refactor product.preview%}"
                                                                                       class="d-block w-30"></a>
                     </div>
                     <div class="col-6 mt-3">
