@@ -1,111 +1,53 @@
-{% load static %}
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Вмагазине</title>
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-</head>
-<body class="bg-light">
-<div class="container">
-    <div class="row">
-        <div class="text-center bg-warning form-control col-3">
-            <h1><img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo"
-                     width="51" height="40"
-                     class="d-inline-block"> - магазине </h1>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row mt-3">
-        <div class="col-3 text-center">
-            <!-- As a heading -->
-            <nav class="navbar bg-dark-subtle form-control">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/">
-                        <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo"
-                             width="30" height="24"
-                             class="d-inline-block align-text-top">
-                        - магазинe
-                    </a>
-                </div>
-            </nav>
-            <!-- As a link -->
-            <nav class="navbar bg-secondary-subtle form-control">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/">На главную</a>
-                </div>
-                <div class="container-fluid">
-                    <a class="navbar-brand" href=#>Корзина</a>
-                </div>
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/feedback/">Обратная связь</a>
-                </div>
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/contacts/">Контакты</a>
-                </div>
-            </nav>
-        </div>
-        <div class="col-9">
-            <div class="text-center bg-secondary-subtle form-control">
-                <h3>ТОП-5 Новинок!</h3>
-                <!--                <div id="carouselExample" class="carousel slide">-->
-                <!--                    <div class="carousel-inner">-->
-                <!--                        {%for serv in products%}-->
-                <!--                        <div class="carousel-item active"><center>-->
-                <!--                            <h5>Категория: {{serv.category.name}}</h5>-->
-                <!--                            <img width = "400" height = "300" src='media/{{serv.preview}}' class="d-block w-30">-->
-                <!--                            <h3>{{serv.name}}</h3>-->
-                <!--                            <h5>{{serv.description}}</h5>-->
-                <!--                            <h4>{{serv.price}} руб.</h4></center>-->
-                <!--                        </div>-->
-                <!--                        {%endfor%}-->
-                <!--                    </div>-->
-                <!--                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"-->
-                <!--                            data-bs-slide="prev">-->
-                <!--                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-                <!--                        <span class="visually-hidden">Previous</span>-->
-                <!--                    </button>-->
-                <!--                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"-->
-                <!--                            data-bs-slide="next">-->
-                <!--                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-                <!--                        <span class="visually-hidden">Next</span>-->
-                <!--                    </button>-->
-                <!--                    <button type="submit" class="btn btn-warning form-control">Добавить в корзину</button>-->
-                <!--                </div>-->
-                {%for serv in products%}
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <center>
-                            <div class="row">
-                                <div class="col-6">
-                                    <h2>{{serv.name}}</h2>
-                                    <img width="400" height="300" src='media/{{serv.preview}}' class="d-block w-30">
-                                </div>
-                                <div class="col-6 mt-3">
-                                    <h6>Категория: {{serv.category.name}}</h6>
-                                    <h5>{{serv.description}}</h5>
-                                    <h1 class="mt-5">{{serv.price}} руб.</h1>
-                                </div>
-                                <button type="submit" class="btn btn-warning form-control mt-3">Добавить в корзину
-                                </button>
-                            </div>
-                        </center>
+{% extends 'main/base.html' %}
+{% block content %}
+<div class="text-center bg-secondary-subtle form-control">
+    <h3>ТОП Новинок!</h3>
+    <!--                <div id="carouselExample" class="carousel slide">-->
+    <!--                    <div class="carousel-inner">-->
+    <!--                        {%for serv in products%}-->
+    <!--                        <div class="carousel-item active"><center>-->
+    <!--                            <h5>Категория: {{serv.category.name}}</h5>-->
+    <!--                            <img width = "400" height = "300" src='media/{{serv.preview}}' class="d-block w-30">-->
+    <!--                            <h3>{{serv.name}}</h3>-->
+    <!--                            <h5>{{serv.description}}</h5>-->
+    <!--                            <h4>{{serv.price}} руб.</h4></center>-->
+    <!--                        </div>-->
+    <!--                        {%endfor%}-->
+    <!--                    </div>-->
+    <!--                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"-->
+    <!--                            data-bs-slide="prev">-->
+    <!--                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+    <!--                        <span class="visually-hidden">Previous</span>-->
+    <!--                    </button>-->
+    <!--                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"-->
+    <!--                            data-bs-slide="next">-->
+    <!--                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+    <!--                        <span class="visually-hidden">Next</span>-->
+    <!--                    </button>-->
+    <!--                    <button type="submit" class="btn btn-warning form-control">Добавить в корзину</button>-->
+    <!--                </div>-->
+    {%for product in products%}
+    <div class="card mb-3">
+        <div class="card-body">
+            <center>
+                <div class="row">
+                    <div class="col-6">
+                        <a href="{% url 'catalog:product_page' pk=product.pk %}"><h2>{{product.name}}</h2></a>
+                        <a href="{% url 'catalog:product_page' pk=product.pk %}"><img width="400" height="300"
+                                                                                      src='media/{{product.preview}}'
+                                                                                      class="d-block w-30"></a>
                     </div>
+                    <div class="col-6 mt-3">
+                        <h6>Категория: {{product.category.name}}</h6>
+                        <h5>{{product.description | slice:"100"}}</h5>
+                        <h1 class="mt-5">{{product.price}} руб.</h1>
+                    </div>
+                    <button type="submit" class="btn btn-warning form-control mt-3">Добавить в корзину
+                    </button>
                 </div>
-                {%endfor%}
-            </div>
+            </center>
         </div>
     </div>
+    {%endfor%}
 </div>
-<div class="container mt-5">
-    <div class="row">
-        <div class="text-center bg-warning form-control col-3">
-            <h6>Copyright V-magazine © {% now 'Y'%}</h6>
-        </div>
-    </div>
-</div>
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-</body>
-</html>
+{% endblock %}

@@ -3,8 +3,8 @@ from .models import Contacts, Product
 
 
 def index(request):
-    # products = Product.objects.all()
-    products = Product.objects.all().order_by('-id')[:5]
+    products = Product.objects.all()
+    # products = Product.objects.all().order_by('-id')[:5]
     context = {'products': products}
     return render(request, 'main/index.html', context)
 
@@ -22,3 +22,8 @@ def feedback(request):
         message = request.POST.get('message')
         print(f'You have new message from {name}({email}): {message}')
     return render(request, 'main/feedback.html')
+
+
+def product_page(request, pk):
+    context = {'object': Product.objects.get(pk=pk)}
+    return render(request, 'main/product_page.html', context)

@@ -1,0 +1,26 @@
+<!-- As a heading -->
+<nav class="navbar bg-dark-subtle form-control">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo"
+                 width="30" height="24"
+                 class="d-inline-block align-text-top">
+            - магазинe
+        </a>
+    </div>
+</nav>
+<!-- As a link -->
+<nav class="navbar bg-secondary-subtle form-control">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'catalog:index' %}">На главную</a>
+    </div>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'catalog:index' %}">Корзина</a>
+    </div>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'catalog:feedback' %}">Обратная связь</a>
+    </div>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'catalog:contacts' %}">Контакты</a>
+    </div>
+</nav>
