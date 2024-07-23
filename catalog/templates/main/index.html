@@ -26,19 +26,19 @@
     <!--                    </button>-->
     <!--                    <button type="submit" class="btn btn-warning form-control">Добавить в корзину</button>-->
     <!--                </div>-->
-    {%for serv in products%}
+    {%for product in products%}
     <div class="card mb-3">
         <div class="card-body">
             <center>
                 <div class="row">
                     <div class="col-6">
-                        <h2>{{serv.name}}</h2>
-                        <img width="400" height="300" src='media/{{serv.preview}}' class="d-block w-30">
+                        <h2>{{product.name}}</h2>
+                        <img width="400" height="300" src='media/{{product.preview}}' class="d-block w-30">
                     </div>
                     <div class="col-6 mt-3">
-                        <h6>Категория: {{serv.category.name}}</h6>
-                        <h5>{{serv.description}}</h5>
-                        <h1 class="mt-5">{{serv.price}} руб.</h1>
+                        <h6>Категория: {{product.category.name}}</h6>
+                        <h5>{{product.description | slice:"100"}}</h5>
+                        <h1 class="mt-5">{{product.price}} руб.</h1>
                     </div>
                     <button type="submit" class="btn btn-warning form-control mt-3">Добавить в корзину
                     </button>

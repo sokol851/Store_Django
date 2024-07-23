@@ -3,8 +3,8 @@ from .models import Contacts, Product
 
 
 def index(request):
-    # products = Product.objects.all()
-    products = Product.objects.all().order_by('-id')[:5]
+    products = Product.objects.all()
+    # products = Product.objects.all().order_by('-id')[:5]
     context = {'products': products}
     return render(request, 'main/index.html', context)
 
