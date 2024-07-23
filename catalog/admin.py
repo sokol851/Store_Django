@@ -18,5 +18,5 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 @admin.register(Contacts)
-class ProductAdmin(admin.ModelAdmin):
+class ContactsAdmin(admin.ModelAdmin):
     list_display = ('warehouse_address', 'legal_address', 'working_hours', 'phone', 'email',)
