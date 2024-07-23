@@ -22,3 +22,8 @@ def feedback(request):
         message = request.POST.get('message')
         print(f'You have new message from {name}({email}): {message}')
     return render(request, 'main/feedback.html')
+
+
+def product_page(request, pk):
+    context = {'object': Product.objects.get(pk=pk)}
+    return render(request, 'main/product_page.html', context)
