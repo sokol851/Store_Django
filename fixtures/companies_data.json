@@ -1,0 +1,1 @@
+[{"model": "companies.companies", "pk": 10, "fields": {"title": "OOO Мебель", "description": "Производство мебели", "views_count": 10, "is_published": true, "slug": "ooo-mebel"}}, {"model": "companies.companies", "pk": 12, "fields": {"title": "ООО \"ПетМол\"", "description": "Производство молока", "views_count": 1, "is_published": true, "slug": "ooo-petmol"}}]

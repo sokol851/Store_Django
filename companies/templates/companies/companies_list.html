@@ -1,0 +1,29 @@
+{% extends 'catalog/base.html' %}
+{% load refactor_url %}
+{% block content %}
+<div class="text-center bg-secondary-subtle form-control">
+    <a href="{% url 'companies:create' %}">
+        <button type="button" class="btn btn-light float-end form-control">Добавить компанию</button>
+    </a>
+    <br><br>
+    {%for object in object_list%}
+    <div class="card mb-3">
+        <div class="card-body">
+            <center>
+                <div class="row">
+                    <p>
+                        {{object}}
+                    </p>
+                    <div class="btn-group">
+                        <a href="{% url 'companies:view' object.pk%}" class="btn btn-secondary">View</a>
+                        <a href="{% url 'companies:edit' object.pk%}" class="btn btn-warning">Edit</a>
+                        <a href="{% url 'companies:delete' object.pk%}"
+                           class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+{% endblock %}
