@@ -1,0 +1,23 @@
+{% extends 'catalog/base.html' %}
+{% load refactor_url %}
+{% block content %}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <center>
+            <div class="row">
+                <div class="col-12">
+                    <h2>{{object.title}} ({{object.slug}})</h2>
+                </div>
+                <div class="col-12 mt-3">
+                    <p>{{object.description}}</p>
+                </div>
+                <a href="{% url 'companies:list' %}" class="btn btn-warning form-control">Назад</a>
+            </div>
+            <div class="card-footer">
+                Просмотры: {{object.views_count}}
+            </div>
+        </center>
+    </div>
+</div>
+{% endblock %}

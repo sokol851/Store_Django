@@ -15,10 +15,16 @@
         <a class="navbar-brand" href="{% url 'catalog:index' %}">На главную</a>
     </div>
     <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'catalog:list_blog' %}">Блог</a>
+    </div>
+    <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'catalog:index' %}">Корзина</a>
     </div>
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'catalog:feedback' %}">Обратная связь</a>
+        <a class="navbar-brand" href="{% url 'companies:list' %}">Компании</a>
+    </div>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'catalog:list_feedback' %}">Отзывы</a>
     </div>
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'catalog:contacts' %}">Контакты</a>

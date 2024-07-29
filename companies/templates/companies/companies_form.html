@@ -1,0 +1,16 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<form class="bg-secondary-subtle text-body-color mb-3 form-control" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit" class="btn btn-dark form-control">
+        {% if object %}
+        Сохранить
+
+        {% else %}
+        Создать
+        {% endif %}
+    </button>
+    <a href="{% url 'companies:list' %}" class="btn btn-warning form-control mt-2">Отмена</a>
+</form>
+{% endblock %}

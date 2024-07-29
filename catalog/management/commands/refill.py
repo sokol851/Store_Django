@@ -1,6 +1,7 @@
 import json
 from django.core.management import BaseCommand
-from catalog.models import Category, Product, Contacts
+from catalog.models import Category, Product, Contacts, Blog
+from companies.models import Companies
 
 from config.settings import BASE_DIR
 
@@ -24,16 +25,32 @@ class Command(BaseCommand):
             data = json.load(json_file)
             return data
 
+    @staticmethod
+    def json_read_blog():
+        with open(BASE_DIR / 'fixtures' / 'blog_data.json', 'r', encoding='utf-8') as json_file:
+            data = json.load(json_file)
+            return data
+
+    @staticmethod
+    def json_read_companies():
+        with open(BASE_DIR / 'fixtures' / 'companies_data.json', 'r', encoding='utf-8') as json_file:
+            data = json.load(json_file)
+            return data
+
     def handle(self, *args, **options):
         # Удаляем продукты, потом категории
         Product.objects.all().delete()
         Category.objects.all().delete()
         Contacts.objects.all().delete()
+        Blog.objects.all().delete()
+        Companies.objects.all().delete()
 
         # Создаём списки для объектов.
         category_for_create = []
         product_for_create = []
         contacts_for_create = []
+        blog_for_create = []
+        companies_for_create = []
 
         # Обход фикстуры категорий
         for category in Command.json_read_categories():
@@ -64,3 +81,27 @@ class Command(BaseCommand):
                                                 email=contact['fields']['email']))
         # Создаем объекты в базе с помощью метода bulk_create()
         Contacts.objects.bulk_create(contacts_for_create)
+
+        # Обход фикстуры блогов
+        for blog in Command.json_read_blog():
+            blog_for_create.append(Blog(pk=blog['pk'],
+                                            name=blog['fields']['name'],
+                                            slug=blog['fields']['slug'],
+                                            content=blog['fields']['content'],
+                                            preview=blog['fields']['preview'],
+                                            created_at=blog['fields']['created_at'],
+                                            is_published=blog['fields']['is_published'],
+                                            views_count=blog['fields']['views_count']))
+        # Создаем объекты в базе с помощью метода bulk_create()
+        Blog.objects.bulk_create(blog_for_create)
+
+        # Обход фикстуры компаний
+        for company in Command.json_read_companies():
+            companies_for_create.append(Companies(pk=company['pk'],
+                                     title=company['fields']['title'],
+                                     description=company['fields']['description'],
+                                     views_count=company['fields']['views_count'],
+                                     is_published=company['fields']['is_published'],
+                                     slug=company['fields']['slug']))
+        # Создаем объекты в базе с помощью метода bulk_create()
+        Companies.objects.bulk_create(companies_for_create)

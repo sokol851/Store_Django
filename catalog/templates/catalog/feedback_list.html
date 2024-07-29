@@ -1,0 +1,31 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+
+<div class="row">
+    <a href="{% url 'catalog:create_feedback' %}" type="button" class="btn btn-warning form-control mb-3">Добавить
+        отзыв</a>
+    {%for object in object_list%}
+    <div class="card bg-secondary-subtle text-body-color mb-3">
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    Имя:
+                    <h5 class="card-title mt-3 form-control col-6">{{object.name}}</h5>
+                </div>
+                <div class="col-6">
+                    Email:
+                    <h5 class="card-title mt-3 form-control col-6">{{object.email}}</h5>
+                </div>
+            </div>
+            <div class="col-12">
+                Сообщение:
+                <h5 class="card-title mt-3 form-control">{{object.content}}</h5>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
