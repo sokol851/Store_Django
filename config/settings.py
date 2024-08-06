@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'catalog',
     'companies',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +120,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = (
     BASE_DIR / 'static',
     BASE_DIR / 'catalog' / 'static',
+    BASE_DIR / 'blog' / 'static',
 )
 
 # Default primary key field type

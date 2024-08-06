@@ -1,7 +1,8 @@
 import json
 from django.core.management import BaseCommand
-from catalog.models import Category, Product, Contacts, Blog
+from catalog.models import Category, Product, Contacts
 from companies.models import Companies
+from blog.models import Blog
 
 from config.settings import BASE_DIR
 
