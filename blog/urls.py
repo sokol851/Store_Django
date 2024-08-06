@@ -9,7 +9,7 @@ app_name = BlogConfig.name
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('list_blog/', BlogListView.as_view(), name='list_blog'),
+    path('', BlogListView.as_view(), name='list_blog'),
     path('created_blog/', BlogCreateView.as_view(), name='create_blog'),
     path('update_blog/<slug:the_slug_blog>', BlogUpdateView.as_view(), name='update_blog'),
     path('delete_blog/<slug:the_slug_blog>/', BlogDeleteView.as_view(), name='delete_blog'),
