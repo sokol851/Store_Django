@@ -21,7 +21,7 @@ class BlogCreateView(CreateView):
 
 class BlogListView(ListView):
     model = Blog
-    slug_url_kwarg = 'the_slug_prod'
+    slug_url_kwarg = 'the_slug_blog'
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
@@ -31,6 +31,7 @@ class BlogListView(ListView):
 
 class BlogDetailView(DetailView):
     model = Blog
+    slug_url_kwarg = 'the_slug_blog'
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -57,11 +58,10 @@ class BlogUpdateView(UpdateView):
     @staticmethod
     def toggle_activity(request, pk):
         product_items = get_object_or_404(Blog, pk=pk)
-        if product_items.is_active:
-            product_items.is_active = False
+        if product_items.is_published:
+            product_items.is_published = False
         else:
-            product_items.is_active = True
-            product_items.is_active = True
+            product_items.is_published = True
 
         product_items.save()
         return redirect(reverse('blog:list_blog'))

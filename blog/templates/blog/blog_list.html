@@ -1,5 +1,5 @@
 {% extends 'catalog/base.html' %}
-{% load refactor_url %}
+{% load refactor_url_blog %}
 {% block content %}
 <div class="card bg-secondary-subtle text-body-color mb-3">
     <a href="{% url 'blog:create_blog' %}" type="button" class="btn btn-warning">Добавить запись</a>
@@ -12,15 +12,23 @@
                         Опубликовано: {{object.created_at}}
                         <h2>{{object.name}}</h2>
                         <a href="{% url 'blog:detail_blog' object.slug %}"><img width="400" height="300"
-                                                                                     src="{%refactor object.preview%}"
-                                                                                     class="d-block w-30"></a>
+                                                                                src="{%refactor object.preview%}"
+                                                                                class="d-block w-30"></a>
                     </div>
                     <div class="col-6 mt-3">
-                        <h5>{{object.content  | slice:"500"}}</h5>
+                        <h5>{{object.content | slice:"500"}}</h5>
 
                     </div>
-                    <a href="{% url 'blog:detail_blog' object.slug %}" type="button" class="btn btn-warning form-control mt-3">Прочитать
+                    <a href="{% url 'blog:detail_blog' object.slug %}" type="button"
+                       class="btn btn-warning form-control mt-3">Прочитать
                     </a>
+                    {% if object.is_published %}
+                    <a href="{% url 'blog:toggle_activity_blog' object.pk %}" type="button"
+                       class="btn form-control btn-warn">Деактивировать товар</a>
+                    {% else %}
+                    <a href="{% url 'blog:toggle_activity_blog' object.pk %}" type="button"
+                       class="btn form-control btn-danger">Активировать товар</a>
+                    {% endif %}
                 </div>
 
             </center>

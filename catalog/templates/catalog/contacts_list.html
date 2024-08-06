@@ -1,10 +1,13 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
 <div class="row">
-    <div class="card bg-secondary-subtle text-body-color mb-3">
-        <div class="card-header">Контакты</div>
-        <div class="card-body">
-            {%for object in object_list%}
+    <div class="card bg-secondary-subtle mb-3 form-control">
+        <div>Контакты</div>
+    </div>
+
+    {%for object in object_list%}
+    <div class="card bg-secondary-subtle text-body-color mb-2">
+
             <h5 class="card-title mt-3 form-control">Адрес склада: {{object.warehouse_address}}</h5>
             <h5 class="card-title mt-3 form-control">Юридический адрес: {{object.legal_address}}</h5>
             <div class="row mt-5">
@@ -15,9 +18,11 @@
                 <div class="col-6"><p>
                     Режим работы: {{object.working_hours}}</p>
                 </div>
-                {% endfor %}
+
             </div>
-        </div>
+
+
     </div>
+    {% endfor %}
 </div>
 {% endblock %}
