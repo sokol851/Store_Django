@@ -9,6 +9,7 @@ class CompaniesCreateView(CreateView):
     model = Companies
     fields = ('title', 'description',)
     success_url = reverse_lazy('companies:list')
+    slug_url_kwarg = 'the_slug_comp'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -21,6 +22,7 @@ class CompaniesCreateView(CreateView):
 
 class CompaniesListView(ListView):
     model = Companies
+    slug_url_kwarg = 'the_slug_comp'
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
@@ -30,6 +32,7 @@ class CompaniesListView(ListView):
 
 class CompaniesDetailView(DetailView):
     model = Companies
+    slug_url_kwarg = 'the_slug_comp'
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -41,6 +44,7 @@ class CompaniesDetailView(DetailView):
 class CompaniesUpdateView(UpdateView):
     model = Companies
     fields = ('title', 'description',)
+    slug_url_kwarg = 'the_slug_comp'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -51,9 +55,10 @@ class CompaniesUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('companies:view', args=[self.kwargs.get('pk')])
+        return reverse('companies:view', args=[self.kwargs.get('the_slug_comp')])
 
 
 class CompaniesDeleteView(DeleteView):
+    slug_url_kwarg = 'the_slug_comp'
     model = Companies
     success_url = reverse_lazy('companies:list')

@@ -15,9 +15,9 @@
                         {{object}}
                     </p>
                     <div class="btn-group">
-                        <a href="{% url 'companies:view' object.pk%}" class="btn btn-secondary">View</a>
-                        <a href="{% url 'companies:edit' object.pk%}" class="btn btn-warning">Edit</a>
-                        <a href="{% url 'companies:delete' object.pk%}"
+                        <a href="{% url 'companies:view' object.slug%}" class="btn btn-secondary">View</a>
+                        <a href="{% url 'companies:edit' object.slug%}" class="btn btn-warning">Edit</a>
+                        <a href="{% url 'companies:delete' object.slug%}"
                            class="btn btn-danger">Delete</a>
                     </div>
                 </div>
