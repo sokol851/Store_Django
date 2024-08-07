@@ -16,13 +16,7 @@ class Product(models.Model):
     slug = models.CharField(max_length=150, verbose_name='slug', null=True, blank=True)
 
     def __str__(self):
-        return (f'Название: {self.name} / '
-                f'Описание: {self.description} / '
-                f'Превью: {self.preview} / '
-                f'Категория: {self.category} / '
-                f'Цена: {self.price} / '
-                f'Создан: {self.created_at} / '
-                f'Изменён: {self.updated_at}')
+        return f'{self.name}'
 
     class Meta:
         verbose_name = 'Продукт'
@@ -73,3 +67,17 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f'Вам письмо от {self.email}'
+
+
+class Subject(models.Model):
+    title = models.CharField(max_length=150, verbose_name='Название')
+    description = models.TextField(verbose_name='Описание')
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'
