@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog.models import Product, Subject
+from catalog.models import Product, Version
 
 
 class StyleFormMixin:
@@ -19,14 +19,14 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 
     def clean_name(self):
         clean_data = self.cleaned_data['name']
-        list_stop_word = ['казино', 'заработай']
+        list_stop_word = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
         for i in list_stop_word:
             if i in clean_data:
                 raise forms.ValidationError('Данный товар запрещён к продаже')
         return clean_data
 
 
-class SubjectForm(StyleFormMixin, forms.ModelForm):
+class VersionForm(StyleFormMixin, forms.ModelForm):
     class Meta:
-        model = Subject
+        model = Version
         fields = '__all__'

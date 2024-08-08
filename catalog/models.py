@@ -69,8 +69,8 @@ class Feedback(models.Model):
         return f'Вам письмо от {self.email}'
 
 
-class Subject(models.Model):
-    title = models.CharField(max_length=150, verbose_name='Название')
+class Version(models.Model):
+    title = models.CharField(max_length=150, verbose_name='Версия')
     description = models.TextField(verbose_name='Описание')
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')

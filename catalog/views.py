@@ -4,8 +4,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from pytils.translit import slugify
 
-from catalog.forms import ProductForm, SubjectForm
-from catalog.models import Contacts, Product, Feedback, Subject
+from catalog.forms import ProductForm, VersionForm
+from catalog.models import Contacts, Product, Feedback, Version
 
 
 class ProductListView(ListView):
@@ -39,11 +39,11 @@ class ProductCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        SubjectFormset = inlineformset_factory(Product, Subject, form=SubjectForm, extra=1)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
         if self.request.method == 'POST':
-            context_data['formset'] = SubjectFormset(self.request.POST)
+            context_data['formset'] = VersionFormset(self.request.POST)
         else:
-            context_data['formset'] = SubjectFormset()
+            context_data['formset'] = VersionFormset()
         return context_data
 
     def form_valid(self, form):
@@ -81,11 +81,11 @@ class ProductUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        SubjectFormset = inlineformset_factory(Product, Subject, form=SubjectForm, extra=1)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
         if self.request.method == 'POST':
-            context_data['formset'] = SubjectFormset(self.request.POST, instance=self.object)
+            context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
         else:
-            context_data['formset'] = SubjectFormset(instance=self.object)
+            context_data['formset'] = VersionFormset(instance=self.object)
         return context_data
 
     @staticmethod
