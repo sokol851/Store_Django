@@ -29,4 +29,4 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 class VersionForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Version
-        fields = '__all__'
+        exclude = ('is_active', )

@@ -31,5 +31,5 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Version)
 class VersionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description',)
+    list_display = ('title', 'number_version', 'product', 'is_active')
     list_filter = ('product',)
