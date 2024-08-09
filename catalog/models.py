@@ -16,13 +16,7 @@ class Product(models.Model):
     slug = models.CharField(max_length=150, verbose_name='slug', null=True, blank=True)
 
     def __str__(self):
-        return (f'Название: {self.name} / '
-                f'Описание: {self.description} / '
-                f'Превью: {self.preview} / '
-                f'Категория: {self.category} / '
-                f'Цена: {self.price} / '
-                f'Создан: {self.created_at} / '
-                f'Изменён: {self.updated_at}')
+        return f'{self.name}'
 
     class Meta:
         verbose_name = 'Продукт'
@@ -35,8 +29,7 @@ class Category(models.Model):
     description = models.CharField(max_length=100, verbose_name='Описание')
 
     def __str__(self):
-        return (f'Наименование: {self.name} / '
-                f'Описание: {self.description}')
+        return f'{self.name} ({self.description})'
 
     class Meta:
         verbose_name = 'Категория'
@@ -74,3 +67,19 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f'Вам письмо от {self.email}'
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='versions', verbose_name='Продукт',
+                                **NULLABLE)
+    title = models.CharField(max_length=150, verbose_name='Название версии')
+    number_version = models.IntegerField(verbose_name='Номер версии', **NULLABLE)
+    is_current = models.BooleanField(default=False, verbose_name='Признак текущей версии')
+
+    def __str__(self):
+        return f'{self.title} ({self.number_version})'
+
+    class Meta:
+        ordering = ['-is_current', 'number_version']
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'

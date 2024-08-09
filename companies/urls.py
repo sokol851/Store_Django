@@ -8,6 +8,7 @@ from companies.views import CompaniesCreateView, CompaniesListView, CompaniesDet
 app_name = CompaniesConfig.name
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('create/', CompaniesCreateView.as_view(), name='create'),
     path('', CompaniesListView.as_view(), name='list'),
     path('view/<slug:the_slug_comp>/', CompaniesDetailView.as_view(), name='view'),

@@ -1,0 +1,42 @@
+[
+  {
+    "model": "catalog.version",
+    "pk": 12,
+    "fields": {
+      "product": 8,
+      "title": "1%",
+      "number_version": 2,
+      "is_current": true
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 14,
+    "fields": {
+      "product": 8,
+      "title": "2.5%",
+      "number_version": 1,
+      "is_current": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 15,
+    "fields": {
+      "product": 8,
+      "title": "3.5%",
+      "number_version": 3,
+      "is_current": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 21,
+    "fields": {
+      "product": 7,
+      "title": "Zara",
+      "number_version": 1,
+      "is_current": true
+    }
+  }
+]

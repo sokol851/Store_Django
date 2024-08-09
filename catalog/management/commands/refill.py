@@ -1,6 +1,6 @@
 import json
 from django.core.management import BaseCommand
-from catalog.models import Category, Product, Contacts
+from catalog.models import Category, Product, Contacts, Version
 from companies.models import Companies
 from blog.models import Blog
 
@@ -38,6 +38,12 @@ class Command(BaseCommand):
             data = json.load(json_file)
             return data
 
+    @staticmethod
+    def json_read_versions():
+        with open(BASE_DIR / 'fixtures' / 'versions_data.json', 'r', encoding='utf-8') as json_file:
+            data = json.load(json_file)
+            return data
+
     def handle(self, *args, **options):
         # Удаляем продукты, потом категории
         Product.objects.all().delete()
@@ -45,6 +51,7 @@ class Command(BaseCommand):
         Contacts.objects.all().delete()
         Blog.objects.all().delete()
         Companies.objects.all().delete()
+        Version.objects.all().delete()
 
         # Создаём списки для объектов.
         category_for_create = []
@@ -52,6 +59,7 @@ class Command(BaseCommand):
         contacts_for_create = []
         blog_for_create = []
         companies_for_create = []
+        versions_for_create = []
 
         # Обход фикстуры категорий
         for category in Command.json_read_categories():
@@ -87,23 +95,33 @@ class Command(BaseCommand):
         # Обход фикстуры блогов
         for blog in Command.json_read_blog():
             blog_for_create.append(Blog(pk=blog['pk'],
-                                            name=blog['fields']['name'],
-                                            slug=blog['fields']['slug'],
-                                            content=blog['fields']['content'],
-                                            preview=blog['fields']['preview'],
-                                            created_at=blog['fields']['created_at'],
-                                            is_published=blog['fields']['is_published'],
-                                            views_count=blog['fields']['views_count']))
+                                        name=blog['fields']['name'],
+                                        slug=blog['fields']['slug'],
+                                        content=blog['fields']['content'],
+                                        preview=blog['fields']['preview'],
+                                        created_at=blog['fields']['created_at'],
+                                        is_published=blog['fields']['is_published'],
+                                        views_count=blog['fields']['views_count']))
         # Создаем объекты в базе с помощью метода bulk_create()
         Blog.objects.bulk_create(blog_for_create)
 
         # Обход фикстуры компаний
         for company in Command.json_read_companies():
             companies_for_create.append(Companies(pk=company['pk'],
-                                     title=company['fields']['title'],
-                                     description=company['fields']['description'],
-                                     views_count=company['fields']['views_count'],
-                                     is_published=company['fields']['is_published'],
-                                     slug=company['fields']['slug']))
+                                                  title=company['fields']['title'],
+                                                  description=company['fields']['description'],
+                                                  views_count=company['fields']['views_count'],
+                                                  is_published=company['fields']['is_published'],
+                                                  slug=company['fields']['slug']))
         # Создаем объекты в базе с помощью метода bulk_create()
         Companies.objects.bulk_create(companies_for_create)
+
+        # Обход фикстуры версий
+        for version in Command.json_read_versions():
+            versions_for_create.append(Version(pk=version['pk'],
+                                               product=Product.objects.get(pk=version['fields']['product']),
+                                               title=version['fields']['title'],
+                                               number_version=version['fields']['number_version'],
+                                               is_current=version['fields']['is_current']))
+        # Создаем объекты в базе с помощью метода bulk_create()
+        Version.objects.bulk_create(versions_for_create)
