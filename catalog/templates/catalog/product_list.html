@@ -1,5 +1,5 @@
 {% extends 'catalog/base.html' %}
-{% load refactor_url %}
+{% load tags %}
 {% block content %}
 <div class="text-center bg-secondary-subtle form-control">
     <a href="{% url 'catalog:create_product' %}">
@@ -14,12 +14,21 @@
                     <div class="col-6">
                         <a href="{% url 'catalog:product_page' object.slug %}"><h2>{{object.name}}</h2></a>
                         <a href="{% url 'catalog:product_page' object.slug %}"><img width="400" height="300"
-                                                                                     src="{%refactor object.preview%}"
-                                                                                     class="d-block w-30"></a>
+                                                                                    src="{%refactor object.preview%}"
+                                                                                    class="d-block w-30"></a>
                     </div>
                     <div class="col-6 mt-3">
                         <h6>Категория: {{object.category.name}}</h6>
                         <h5>{{object.description | slice:"100"}}</h5>
+                        <div class="text-center bg-secondary-subtle form-control">
+                            {% if object in product_versions %}
+                            <p class="mt-1 mb-1">
+                                Версия: {% get_value product_versions object %}
+                            </p>
+                            {% else %}
+                            Нет доступных версий
+                            {% endif %}
+                        </div>
                         <h1 class="mt-5">{{object.price}} руб.</h1>
                         <div class="row">
                             <div class="col-6">
@@ -42,7 +51,6 @@
                        class="btn form-control btn-danger">Активировать товар</a>
                     {% endif %}
                 </div>
-
             </center>
         </div>
     </div>

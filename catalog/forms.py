@@ -8,6 +8,8 @@ class StyleFormMixin:
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
+            if field_name == 'is_current':
+                field.widget.attrs['class'] = 'form-check-input'
 
 
 class ProductForm(StyleFormMixin, forms.ModelForm):
@@ -19,9 +21,10 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 
     def clean_name(self):
         clean_data = self.cleaned_data['name']
-        list_stop_word = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-        for i in list_stop_word:
-            if i in clean_data:
+        list_stop_word = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
+                          'радар']
+        for word in list_stop_word:
+            if word in clean_data:
                 raise forms.ValidationError('Данный товар запрещён к продаже')
         return clean_data
 
@@ -29,4 +32,8 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 class VersionForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Version
-        exclude = ('is_active', )
+        fields = '__all__'
+
+    def clean_is_current(self):
+        clean_data = self.cleaned_data['is_current']
+        return clean_data

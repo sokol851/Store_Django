@@ -1,16 +1,16 @@
 {% extends 'catalog/base.html' %}
-{% load refactor_url %}
+{% load tags %}
 {% block content %}
 <div class="card mb-3">
-                <div class="row">
-                    <div class="col-6">
-                        Дата создания: {{object.created_at}}
-                    </div>
-                    <div class="col-6">
-                        Последнее изменение: {{object.updated_at}}
-                    </div>
-                </div>
-                    </div>
+    <div class="row">
+        <div class="col-6">
+            Дата создания: {{object.created_at}}
+        </div>
+        <div class="col-6">
+            Последнее изменение: {{object.updated_at}}
+        </div>
+    </div>
+</div>
 <div class="card mb-3">
     <div class="card-body">
         <center>
@@ -32,17 +32,24 @@
 </div>
 <div class="card-body">
     <div class="row">
-                            <div class="col-6">
-                                <a href="{% url 'catalog:update_product' object.slug %}" type="button" class="btn btn-dark form-control">Редактировать</a>
-                            </div>
-                            <div class="col-6">
-                                <a href="{% url 'catalog:delete_product' object.slug %}" type="button" class="btn btn-dark form-control">Удалить</a>
-                            </div>
-                        </div>
+        <div class="col-6">
+            <a href="{% url 'catalog:update_product' object.slug %}" type="button" class="btn btn-dark form-control">Редактировать</a>
+        </div>
+        <div class="col-6">
+            <a href="{% url 'catalog:delete_product' object.slug %}" type="button" class="btn btn-dark form-control">Удалить</a>
+        </div>
     </div>
+</div>
 <div class="row">
     <div class="col-12 mt-3">
-        <a href="{% url 'catalog:index' %}" type="button" class="btn btn-warning form-control">Назад</a>
+        <a href="{% url 'catalog:index' %}" type="button" class="btn btn-warning form-control mt-3 mb-3">Назад</a>
+        {% if object.is_active %}
+        <a href="{% url 'catalog:toggle_activity_prod' object.pk%}" type="button"
+           class="btn form-control btn-warn">Деактивировать товар</a>
+        {% else %}
+        <a href="{% url 'catalog:toggle_activity_prod' object.pk%}" type="button"
+           class="btn form-control btn-danger">Активировать товар</a>
+        {% endif %}
     </div>
 </div>
 

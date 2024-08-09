@@ -70,14 +70,16 @@ class Feedback(models.Model):
 
 
 class Version(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='versions', verbose_name='Продукт',
+                                **NULLABLE)
     title = models.CharField(max_length=150, verbose_name='Название версии')
     number_version = models.IntegerField(verbose_name='Номер версии', **NULLABLE)
-    is_active = models.BooleanField(default=True)
+    is_current = models.BooleanField(default=False, verbose_name='Признак текущей версии')
 
     def __str__(self):
         return f'{self.title} ({self.number_version})'
 
     class Meta:
+        ordering = ['-is_current', 'number_version']
         verbose_name = 'Версия'
         verbose_name_plural = 'Версии'
