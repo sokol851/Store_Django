@@ -26,7 +26,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         clean_data = self.cleaned_data['name']
 
         for word in self.list_stop_word:
-            if word in clean_data:
+            if word.lower() in clean_data.lower():
                 raise forms.ValidationError('Данный товар запрещён к продаже')
         return clean_data
 
@@ -34,7 +34,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         clean_data = self.cleaned_data['description']
 
         for word in self.list_stop_word:
-            if word in clean_data:
+            if word.lower() in clean_data.lower():
                 raise forms.ValidationError('Данный товар запрещён к продаже')
         return clean_data
 
