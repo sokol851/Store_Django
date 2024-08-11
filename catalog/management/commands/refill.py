@@ -1,6 +1,6 @@
 import json
 from django.core.management import BaseCommand
-from catalog.models import Category, Product, Contacts, Version
+from catalog.models import Category, Product, Contacts, Version, Feedback
 from companies.models import Companies
 from blog.models import Blog
 
@@ -44,6 +44,12 @@ class Command(BaseCommand):
             data = json.load(json_file)
             return data
 
+    @staticmethod
+    def json_read_feedback():
+        with open(BASE_DIR / 'fixtures' / 'feedback_data.json', 'r', encoding='utf-8') as json_file:
+            data = json.load(json_file)
+            return data
+
     def handle(self, *args, **options):
         # Удаляем продукты, потом категории
         Product.objects.all().delete()
@@ -52,6 +58,7 @@ class Command(BaseCommand):
         Blog.objects.all().delete()
         Companies.objects.all().delete()
         Version.objects.all().delete()
+        Feedback.objects.all().delete()
 
         # Создаём списки для объектов.
         category_for_create = []
@@ -60,6 +67,7 @@ class Command(BaseCommand):
         blog_for_create = []
         companies_for_create = []
         versions_for_create = []
+        feedback_for_create = []
 
         # Обход фикстуры категорий
         for category in Command.json_read_categories():
@@ -125,3 +133,12 @@ class Command(BaseCommand):
                                                is_current=version['fields']['is_current']))
         # Создаем объекты в базе с помощью метода bulk_create()
         Version.objects.bulk_create(versions_for_create)
+
+        # Обход фикстуры отзывов
+        for feedback in Command.json_read_feedback():
+            feedback_for_create.append(Feedback(pk=feedback['pk'],
+                                               name=feedback['fields']['name'],
+                                               email=feedback['fields']['email'],
+                                               content=feedback['fields']['content']))
+        # Создаем объекты в базе с помощью метода bulk_create()
+        Feedback.objects.bulk_create(feedback_for_create)
