@@ -144,3 +144,4 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = config('EMAIL_USE_SSL')
 EMAIL_USE_TCL = config('EMAIL_USE_TCL')
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
