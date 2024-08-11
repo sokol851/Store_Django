@@ -80,9 +80,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'shop',
-        'USER': 'postgres',
-        "PASSWORD": '12345'
+        'NAME': config('NAME_BASE'),
+        'USER': config('USER_BASE'),
+        "PASSWORD": config('PASSWORD_BASE')
     }
 }
 
@@ -138,8 +138,9 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-EMAIL_HOST = "smtp.yandex.ru"
-EMAIL_PORT = 465
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_SSL = True
+EMAIL_USE_SSL = config('EMAIL_USE_SSL')
+EMAIL_USE_TCL = config('EMAIL_USE_TCL')
