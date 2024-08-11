@@ -5,7 +5,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from pytils.translit import slugify
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, FeedbackForm
 from catalog.models import Contacts, Product, Feedback, Version
 
 
@@ -34,8 +34,8 @@ class ContactsListView(ListView):
 
 class FeedbackCreateView(CreateView):
     model = Feedback
-    fields = ('name', 'email', 'content')
     success_url = reverse_lazy('catalog:list_feedback')
+    form_class = FeedbackForm
 
 
 class FeedbackListView(ListView):

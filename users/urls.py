@@ -12,5 +12,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
     path('profile/', ProfileView.as_view(), name='profile'),
-    path('reg_confirm', LoginView.as_view(template_name='users/reg_confirm.html'), name='reg_confirm'),
+    # path('reg_confirm', LoginView.as_view(template_name='users/reg_confirm.html'), name='reg_confirm'),
 ]
