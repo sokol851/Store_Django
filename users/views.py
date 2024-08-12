@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
@@ -26,10 +25,6 @@ class RegisterView(CreateView):
         response = super().form_valid(form)
         user = form.instance
         self.send_verification_email(user)
-        messages.success(
-            self.request,
-            "Registration successful. Please check your email to verify your account.",
-        )
         return response
 
     @staticmethod
@@ -51,16 +46,21 @@ class RegisterView(CreateView):
 
 
 class VerifyEmailView(View):
-    def get(self, request, token_verify, *args, **kwargs):
+
+    @staticmethod
+    def get(request, token_verify, *args, **kwargs):
         try:
             user = User.objects.get(token_verify=token_verify)
             user.is_active = True
             user.save()
-            message = "Email успешно активирован!"
+            email = user.email
+            title = 'Успешное подтверждение'
+            message = f"Аккаунт {email} успешно активирован!"
         except User.DoesNotExist:
+            title = 'Ошибка!'
             message = "Произошла ошибка. Убедитесь, что переходите по ссылке из письма!"
 
-        return render(request, "users/reg_confirm.html", {"message": message})
+        return render(request, "users/reg_confirm.html", {"message": message, 'title': title})
 
 
 class ProfileDetailView(DetailView):
