@@ -1,48 +1,66 @@
-from config import settings
-from django.contrib.auth.tokens import default_token_generator
+from django.contrib import messages
 from django.core.mail import send_mail
-from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
+from django.views import View
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
+
+from config import settings
 
 
 class RegisterView(CreateView):
     model = User
     form_class = UserRegisterForm
     template_name = "users/register.html"
-    success_url = reverse_lazy('users:login')
+    success_url = reverse_lazy("users:login")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Регистрация на сайте'
         return context
 
-    # def form_valid(self, form):
-    #     user = form.save(commit=False)
-    #     user.is_active = False
-    #     user.save()
-    #
-    #     token = default_token_generator.make_token(user)
-    #     uid = urlsafe_base64_encode(force_bytes(user.pk))
-    #     activation_url = reverse_lazy('users:reg_done', kwargs={'uidb64': uid, 'token': token})
-    #
-    #     send_mail(
-    #         'Подтвердите регистрацию!',
-    #         (
-    #             f"Благодарим за регистрацию на сайте V-magazine.\n"
-    #             "Для активации учётной записи, пожалуйста перейдите по ссылке:\n"
-    #             f"http://localhost:8000/{activation_url}\n"
-    #         ),
-    #         settings.EMAIL_HOST_USER,
-    #         [user.email],
-    #         fail_silently=False,
-    #     )
-    #     return redirect('email_confirmation_sent')
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = form.instance
+        self.send_verification_email(user)
+        messages.success(
+            self.request,
+            "Registration successful. Please check your email to verify your account.",
+        )
+        return response
+
+    @staticmethod
+    def send_verification_email(user):
+        verification_link = (
+            f"{settings.SITE_URL}/users/verify/{user.token_verify}/"
+        )
+        subject = "Подтвердите регистрацию!"
+        message = (f"Благодарим за регистрацию на сайте V-magazine.\n"
+                   f"Для активации учётной записи, пожалуйста перейдите по ссылке:\n"
+                   f"{verification_link}")
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [user.email],
+            fail_silently=False,
+        )
+
+
+class VerifyEmailView(View):
+    def get(self, request, token_verify, *args, **kwargs):
+        try:
+            user = User.objects.get(token_verify=token_verify)
+            user.is_active = True
+            user.save()
+            message = "Email успешно активирован!"
+        except User.DoesNotExist:
+            message = "Произошла ошибка. Убедитесь, что переходите по ссылке из письма!"
+
+        return render(request, "users/reg_confirm.html", {"message": message})
 
 
 class ProfileDetailView(DetailView):

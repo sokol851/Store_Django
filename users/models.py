@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -12,8 +14,7 @@ class User(AbstractUser):
                                help_text='Загрузите свой аватар')
     country = models.CharField(max_length=50, verbose_name='страна', **NULLABLE, help_text='Укажите вашу страну')
     is_active = models.BooleanField(default=False)
-
-    token = models.CharField(max_length=100, verbose_name="Токен", **NULLABLE)
+    token_verify = models.UUIDField(default=uuid.uuid4, unique=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -22,5 +23,5 @@ class User(AbstractUser):
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
-    def __str__(self):
-        return self.email
+    # def __str__(self):
+    #     return self.email
