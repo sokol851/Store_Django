@@ -60,3 +60,10 @@ class ProfileUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('users:user_detail', args=[self.kwargs.get('pk')])
+
+    def form_valid(self, form):
+        user = form.save()
+        if user.avatar == '':
+            user.avatar = 'users/non_avatar.png'
+        user.save()
+        return super().form_valid(form)
