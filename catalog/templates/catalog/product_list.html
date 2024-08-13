@@ -2,9 +2,11 @@
 {% load tags %}
 {% block content %}
 <div class="text-center bg-secondary-subtle form-control">
+    {% if request.user.is_authenticated%}
     <a href="{% url 'catalog:create_product' %}">
         <button type="button" class="btn btn-light float-end">Добавить</button>
     </a>
+    {% endif %}
     <h3>ТОП Новинок!</h3>
     {%for object in object_list%}
     <div class="card mb-3">
@@ -30,6 +32,7 @@
                             {% endif %}
                         </div>
                         <h1 class="mt-5">{{object.price}} руб.</h1>
+                        {% if request.user.is_authenticated%}
                         <div class="row">
                             <div class="col-6">
                                 <a href="{% url 'catalog:update_product' object.slug %}" type="button"
@@ -40,15 +43,18 @@
                                    class="btn btn-dark form-control">Удалить</a>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                     <button type="submit" class="btn btn-warning form-control mt-3">Добавить в корзину
                     </button>
+                    {% if request.user.is_authenticated%}
                     {% if object.is_active %}
                     <a href="{% url 'catalog:toggle_activity_prod' object.pk%}" type="button"
                        class="btn form-control btn-warn">Деактивировать товар</a>
                     {% else %}
                     <a href="{% url 'catalog:toggle_activity_prod' object.pk%}" type="button"
                        class="btn form-control btn-danger">Активировать товар</a>
+                    {% endif %}
                     {% endif %}
                 </div>
             </center>
