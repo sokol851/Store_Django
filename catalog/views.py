@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect
@@ -42,16 +43,17 @@ class FeedbackListView(ListView):
     model = Feedback
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     slug_url_kwarg = 'the_slug_prod'
+    login_url = 'users:login'
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
-
     success_url = reverse_lazy('catalog:index')
+    login_url = 'users:login'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -65,6 +67,9 @@ class ProductCreateView(CreateView):
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
         self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
+
         if form.is_valid():
             self.object.slug = slugify(self.object.name)
             self.object.save()
@@ -76,11 +81,12 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
     slug_url_kwarg = 'the_slug_prod'
+    login_url = 'users:login'
 
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
@@ -128,7 +134,8 @@ class ProductUpdateView(UpdateView):
         return redirect(reverse('catalog:index'))
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     slug_url_kwarg = 'the_slug_prod'
     success_url = reverse_lazy('catalog:index')
+    login_url = 'users:login'
