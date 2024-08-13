@@ -1,10 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 
-from users.forms import UserRegisterForm, UserProfileForm
+from users.forms import UserRegisterForm, UserProfileForm, CustomLoginForm
 from users.models import User
 
 from config import settings
@@ -81,7 +83,20 @@ class ProfileUpdateView(UpdateView):
 
     def form_valid(self, form):
         user = form.save()
+        if user.first_name == '':
+            user.first_name = 'Не указано'
+        if user.last_name == '':
+            user.last_name = 'Не указано'
+        if user.phone is None:
+            user.phone = 'Не указано'
+        if user.country is None:
+            user.country = 'Не указано'
         if user.avatar == '':
             user.avatar = 'users/non_avatar.png'
         user.save()
         return super().form_valid(form)
+
+
+class CustomLoginView(LoginView):
+    form_class = CustomLoginForm
+    template_name = "users/login.html"
