@@ -2,8 +2,7 @@ import random
 import string
 
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.views import LoginView, PasswordResetConfirmView
-from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
@@ -20,7 +19,7 @@ class RegisterView(CreateView):
     model = User
     form_class = UserRegisterForm
     template_name = "users/register.html"
-    success_url = reverse_lazy("users:login")
+    success_url = reverse_lazy("users:email_confirmation_sent")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,13 +59,17 @@ class VerifyEmailView(View):
             user.is_active = True
             user.save()
             email = user.email
-            title = 'Успешное подтверждение'
+            title = 'Регистрация завершена!'
             message = f"Аккаунт {email} успешно активирован!"
         except User.DoesNotExist:
             title = 'Ошибка!'
             message = "Произошла ошибка. Убедитесь, что переходите по ссылке из письма!"
 
         return render(request, "users/reg_confirm.html", {"message": message, 'title': title})
+
+
+class EmailConfirmationSentView(TemplateView):
+    template_name = 'users/email_confirmation_sent.html'
 
 
 class ProfileDetailView(DetailView):
@@ -104,6 +107,11 @@ class ProfileUpdateView(UpdateView):
 class CustomLoginView(LoginView):
     form_class = CustomLoginForm
     template_name = "users/login.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Регистрация на сайте'
+        return context
 
 
 class UserPasswordResetView(FormView):
