@@ -1,12 +1,16 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView
+import random
+import string
+
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.views import LoginView, PasswordResetConfirmView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, TemplateView, FormView
 
-from users.forms import UserRegisterForm, UserProfileForm, CustomLoginForm
+from users.forms import UserRegisterForm, UserProfileForm, CustomLoginForm, UserPasswordResetForm
 from users.models import User
 
 from config import settings
@@ -100,3 +104,30 @@ class ProfileUpdateView(UpdateView):
 class CustomLoginView(LoginView):
     form_class = CustomLoginForm
     template_name = "users/login.html"
+
+
+class UserPasswordResetView(FormView):
+    template_name = 'users/user_password_reset.html'
+    form_class = UserPasswordResetForm
+    success_url = reverse_lazy('users:user_password_sent')
+
+    def form_valid(self, form):
+        email = form.cleaned_data.get('email')
+        user = User.objects.filter(email=email).first()
+
+        if user is not None:
+            characters = string.ascii_letters + string.digits
+            new_password = ''.join(random.choice(characters) for i in range(12))
+
+            user.password = make_password(new_password)
+            user.save()
+
+            subject = 'Восстановление пароля'
+            message = f'Ваш новый пароль: {new_password}'
+            send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
+
+        return super().form_valid(form)
+
+
+class UserPasswordSentView(TemplateView):
+    template_name = 'users/user_password_sent.html'
