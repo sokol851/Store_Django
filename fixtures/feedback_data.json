@@ -1,0 +1,20 @@
+[
+  {
+    "model": "catalog.feedback",
+    "pk": 1,
+    "fields": {
+      "name": "Илья",
+      "email": "ilia-akatoff@ya.ru",
+      "content": "Оч нравится"
+    }
+  },
+  {
+    "model": "catalog.feedback",
+    "pk": 2,
+    "fields": {
+      "name": "Олег",
+      "email": "oleg@mail.ru",
+      "content": "Нравится"
+    }
+  }
+]

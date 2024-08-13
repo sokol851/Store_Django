@@ -1,0 +1,17 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<form class="row bg-secondary-subtle text-body-color" method="post" enctype="multipart/form-data">
+
+    <div class="card col-12 bg-secondary-subtle">
+        <div class="card-header bg-secondary-subtle">
+            <h3 class="card-title">
+                {{ title }}
+            </h3>
+        </div>
+        <div class="mt-3 form-control">{{ message }}</div>
+        <div class="card-body mb-3 mt-3">
+            <a href='{%url "users:login"%}' type="submit" class="btn btn-warning form-control">Авторизоваться</a>
+        </div>
+    </div>
+</form>
+{% endblock %}
