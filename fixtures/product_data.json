@@ -8,10 +8,11 @@
       "preview": "catalog/frost.jpg",
       "category": 4,
       "price": 50000,
-      "created_at": "2024-07-30T07:29:48.807Z",
-      "updated_at": "2024-08-09T19:40:57.523Z",
+      "created_at": "2024-08-10T18:45:33.446Z",
+      "updated_at": "2024-08-10T18:45:33.446Z",
       "is_active": true,
-      "slug": "holodilnik"
+      "slug": "holodilnik",
+      "owner": null
     }
   },
   {
@@ -23,10 +24,11 @@
       "preview": "catalog/sweater.jpg",
       "category": 7,
       "price": 5000,
-      "created_at": "2024-07-30T07:29:48.808Z",
-      "updated_at": "2024-08-09T19:49:24.135Z",
+      "created_at": "2024-08-10T18:45:33.446Z",
+      "updated_at": "2024-08-10T18:45:33.446Z",
       "is_active": true,
-      "slug": "sviter"
+      "slug": "sviter",
+      "owner": null
     }
   },
   {
@@ -38,10 +40,11 @@
       "preview": "catalog/milk.jpg",
       "category": 8,
       "price": 70,
-      "created_at": "2024-07-30T07:29:48.808Z",
-      "updated_at": "2024-08-09T19:43:13.066Z",
+      "created_at": "2024-08-10T18:45:33.446Z",
+      "updated_at": "2024-08-13T22:18:45.639Z",
       "is_active": true,
-      "slug": "moloko"
+      "slug": "moloko",
+      "owner": null
     }
   },
   {
@@ -53,10 +56,11 @@
       "preview": "catalog/table.jpg",
       "category": 5,
       "price": 10000,
-      "created_at": "2024-07-30T07:29:48.808Z",
-      "updated_at": "2024-08-09T19:40:30.066Z",
+      "created_at": "2024-08-10T18:45:33.446Z",
+      "updated_at": "2024-08-10T18:45:33.446Z",
       "is_active": true,
-      "slug": "table"
+      "slug": "table",
+      "owner": null
     }
   },
   {
@@ -68,10 +72,11 @@
       "preview": "catalog/elephant.jpg",
       "category": 6,
       "price": 500,
-      "created_at": "2024-07-30T07:29:48.808Z",
-      "updated_at": "2024-08-09T19:40:27.180Z",
+      "created_at": "2024-08-10T18:45:33.446Z",
+      "updated_at": "2024-08-11T09:55:59.330Z",
       "is_active": true,
-      "slug": "elephant"
+      "slug": "elephant",
+      "owner": null
     }
   },
   {
@@ -83,10 +88,11 @@
       "preview": "catalog/shkaf.jpg",
       "category": 5,
       "price": 70000,
-      "created_at": "2024-07-30T07:29:48.808Z",
-      "updated_at": "2024-08-09T19:40:05.027Z",
+      "created_at": "2024-08-10T18:45:33.446Z",
+      "updated_at": "2024-08-10T18:45:33.446Z",
       "is_active": true,
-      "slug": "shkaf"
+      "slug": "shkaf",
+      "owner": null
     }
   },
   {
@@ -98,10 +104,11 @@
       "preview": "catalog/2024/07/29/телевизор_tDw7OM5.jpg",
       "category": 4,
       "price": 65000,
-      "created_at": "2024-07-30T07:29:48.808Z",
-      "updated_at": "2024-08-09T19:40:33.546Z",
+      "created_at": "2024-08-10T18:45:33.446Z",
+      "updated_at": "2024-08-10T18:45:33.446Z",
       "is_active": true,
-      "slug": "televizor"
+      "slug": "televizor",
+      "owner": null
     }
   }
 ]
