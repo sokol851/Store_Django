@@ -52,12 +52,14 @@
     <div class="col-12 mt-3">
         <a href="{% url 'catalog:index' %}" type="button" class="btn btn-warning form-control mt-3 mb-3">Назад</a>
         {% if request.user.is_authenticated %}
+        {% if perms.catalog.set_published %}
         {% if object.is_active %}
         <a href="{% url 'catalog:toggle_activity_prod' object.pk%}" type="button"
            class="btn form-control btn-warn">Деактивировать товар</a>
         {% else %}
         <a href="{% url 'catalog:toggle_activity_prod' object.pk%}" type="button"
            class="btn form-control btn-danger">Активировать товар</a>
+        {% endif %}
         {% endif %}
         {% endif %}
     </div>

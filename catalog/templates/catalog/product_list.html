@@ -56,7 +56,7 @@
                     <button type="submit" class="btn btn-warning form-control mt-3">Добавить в корзину
                     </button>
                     {% if request.user.is_authenticated%} <!-- Аутентификация -->
-                    {% if perms.catalog.set_published_status %} <!-- Права -->
+                    {% if perms.catalog.set_published %} <!-- Права -->
                     {% if object.is_active %} <!-- Проверка Boolean -->
                     <a href="{% url 'catalog:toggle_activity_prod' object.pk%}" type="button"
                        class="btn form-control btn-warn">Деактивировать товар</a>

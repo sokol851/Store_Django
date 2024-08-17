@@ -17,18 +17,18 @@ class Command(BaseCommand):
         # Определяем и создаем необходимые права, если они не существуют
         permissions = [
             Permission.objects.get_or_create(
-                codename='can_unpublish_product',
-                name='Can unpublish product',
+                codename='set_published',
+                name='Can publish product',
                 content_type=content_type
             )[0],
             Permission.objects.get_or_create(
-                codename='change_description_product',
-                name='Can change product description',
+                codename='set_description',
+                name='Can edit description product',
                 content_type=content_type
             )[0],
             Permission.objects.get_or_create(
-                codename='change_category_product',
-                name='Can change product category',
+                codename='set_category',
+                name='Can change category product',
                 content_type=content_type
             )[0],
             Permission.objects.get_or_create(
