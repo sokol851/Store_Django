@@ -8,6 +8,7 @@
         - логин: admin@pow.ru
         - пароль: 12345
     Заполнение базы из бекапа: python manage.py refill
+    Заполнение групп пользователей: python manage.py fill_groups
 
 ___
 ## Внимание!! 
