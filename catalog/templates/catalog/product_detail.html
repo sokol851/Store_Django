@@ -16,35 +16,38 @@
 </div>
 <div class="card mb-3">
     <div class="card-body">
-        <center>
-            <div class="row">
+            <div class="row text-center  ">
                 <div class="col-12">
                     <h2>{{object.name}}</h2>
-                    <img width="600" height="500" src="{% refactor object.preview %}" class="d-block w-30">
+                    <img width="600" height="500" src="{% refactor object.preview %}" class="img-thumbnail">
                 </div>
-                <div class="col-12 mt-3">
+                <div class="col-12 mt-3 ">
                     <h6>Категория: {{object.category.name}}</h6>
-                    <h5>{{object.description}}</h5>
+                    <h5 class="img-thumbnail">{{object.description}}</h5>
                     <h1 class="mt-5">{{object.price}} руб.</h1>
                 </div>
                 <button type="submit" class="btn btn-warning form-control mt-3">Добавить в корзину
                 </button>
             </div>
-        </center>
     </div>
 </div>
 {% if request.user.is_authenticated%}
 <div class="card-body">
     <div class="row">
+        {% if perms.catalog.change_product %}
         <div class="col-6">
             <a href="{% url 'catalog:update_product' object.slug %}" type="button" class="btn btn-dark form-control">Редактировать</a>
         </div>
+        {% endif %}
+        {% if user.is_superuser %}
         <div class="col-6">
             <a href="{% url 'catalog:delete_product' object.slug %}" type="button" class="btn btn-dark form-control">Удалить</a>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endif %}
+{% if perms.catalog.change_product %}
 <div class="row">
     <div class="col-12 mt-3">
         <a href="{% url 'catalog:index' %}" type="button" class="btn btn-warning form-control mt-3 mb-3">Назад</a>
@@ -59,5 +62,6 @@
         {% endif %}
     </div>
 </div>
+{% endif %}
 
 {% endblock %}

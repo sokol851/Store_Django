@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect
@@ -10,7 +10,7 @@ from catalog.forms import ProductForm, VersionForm, FeedbackForm
 from catalog.models import Contacts, Product, Feedback, Version
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
 
     def get_context_data(self, **kwargs):
@@ -46,14 +46,13 @@ class FeedbackListView(ListView):
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     slug_url_kwarg = 'the_slug_prod'
-    login_url = 'users:login'
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.add_product'
     success_url = reverse_lazy('catalog:index')
-    login_url = 'users:login'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -81,12 +80,12 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.change_product'
     success_url = reverse_lazy('catalog:index')
     slug_url_kwarg = 'the_slug_prod'
-    login_url = 'users:login'
 
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
@@ -134,8 +133,10 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         return redirect(reverse('catalog:index'))
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     slug_url_kwarg = 'the_slug_prod'
     success_url = reverse_lazy('catalog:index')
-    login_url = 'users:login'
+
+    def test_func(self):
+        return self.request.user.is_superuser

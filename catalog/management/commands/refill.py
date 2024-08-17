@@ -5,6 +5,7 @@ from companies.models import Companies
 from blog.models import Blog
 
 from config.settings import BASE_DIR
+from users.models import User
 
 
 class Command(BaseCommand):
@@ -85,7 +86,9 @@ class Command(BaseCommand):
                                               price=product['fields']['price'],
                                               created_at=product['fields']['created_at'],
                                               updated_at=product['fields']['updated_at'],
-                                              slug=product['fields']['slug']))
+                                              slug=product['fields']['slug'],
+                                              owner=(User.objects.get(pk=product['fields']['owner'])
+                                                     if product['fields']['owner'] else None)))
         # Создаем объекты в базе с помощью метода bulk_create()
         Product.objects.bulk_create(product_for_create)
 
@@ -137,8 +140,8 @@ class Command(BaseCommand):
         # Обход фикстуры отзывов
         for feedback in Command.json_read_feedback():
             feedback_for_create.append(Feedback(pk=feedback['pk'],
-                                               name=feedback['fields']['name'],
-                                               email=feedback['fields']['email'],
-                                               content=feedback['fields']['content']))
+                                                name=feedback['fields']['name'],
+                                                email=feedback['fields']['email'],
+                                                content=feedback['fields']['content']))
         # Создаем объекты в базе с помощью метода bulk_create()
         Feedback.objects.bulk_create(feedback_for_create)
