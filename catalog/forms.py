@@ -52,3 +52,9 @@ class FeedbackForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Feedback
         fields = ('name', 'email', 'content')
+
+
+class ProdModeratorForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ("category", "description", "is_active",)
