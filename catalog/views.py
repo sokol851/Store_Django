@@ -1,16 +1,16 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ValidationError
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import ValidationError, PermissionDenied
 from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from pytils.translit import slugify
 
-from catalog.forms import ProductForm, VersionForm, FeedbackForm
+from catalog.forms import ProductForm, VersionForm, FeedbackForm, ProdModeratorForm
 from catalog.models import Contacts, Product, Feedback, Version
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
 
     def get_context_data(self, **kwargs):
@@ -46,14 +46,12 @@ class FeedbackListView(ListView):
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     slug_url_kwarg = 'the_slug_prod'
-    login_url = 'users:login'
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
-    login_url = 'users:login'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -86,7 +84,6 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
     slug_url_kwarg = 'the_slug_prod'
-    login_url = 'users:login'
 
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
@@ -122,6 +119,15 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             context_data['formset'] = VersionFormset(instance=self.object)
         return context_data
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.has_perm('catalog.set_published') and user.has_perm(
+                'catalog.set_description') and user.has_perm('catalog.set_category'):
+            return ProdModeratorForm
+        raise PermissionDenied
+
     @staticmethod
     def toggle_activity(request, pk):
         product_items = get_object_or_404(Product, pk=pk)
@@ -134,8 +140,10 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         return redirect(reverse('catalog:index'))
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     slug_url_kwarg = 'the_slug_prod'
     success_url = reverse_lazy('catalog:index')
-    login_url = 'users:login'
+
+    def test_func(self):
+        return self.request.user.is_superuser

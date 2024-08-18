@@ -1,10 +1,14 @@
 import json
+
+# from django.contrib import auth
+# from django.contrib.contenttypes.models import ContentType
 from django.core.management import BaseCommand
 from catalog.models import Category, Product, Contacts, Version, Feedback
 from companies.models import Companies
 from blog.models import Blog
 
 from config.settings import BASE_DIR
+from users.models import User
 
 
 class Command(BaseCommand):
@@ -50,6 +54,12 @@ class Command(BaseCommand):
             data = json.load(json_file)
             return data
 
+    # @staticmethod
+    # def json_read_user_permission_data():
+    #     with open(BASE_DIR / 'fixtures' / 'user_permission_data.json', 'r', encoding='utf-8') as json_file:
+    #         data = json.load(json_file)
+    #         return data
+
     def handle(self, *args, **options):
         # Удаляем продукты, потом категории
         Product.objects.all().delete()
@@ -59,6 +69,7 @@ class Command(BaseCommand):
         Companies.objects.all().delete()
         Version.objects.all().delete()
         Feedback.objects.all().delete()
+        # auth.models.Permission.objects.all().delete()
 
         # Создаём списки для объектов.
         category_for_create = []
@@ -68,6 +79,7 @@ class Command(BaseCommand):
         companies_for_create = []
         versions_for_create = []
         feedback_for_create = []
+        # perms_for_create = []
 
         # Обход фикстуры категорий
         for category in Command.json_read_categories():
@@ -85,7 +97,9 @@ class Command(BaseCommand):
                                               price=product['fields']['price'],
                                               created_at=product['fields']['created_at'],
                                               updated_at=product['fields']['updated_at'],
-                                              slug=product['fields']['slug']))
+                                              slug=product['fields']['slug'],
+                                              owner=(User.objects.get(pk=product['fields']['owner'])
+                                                     if product['fields']['owner'] else None)))
         # Создаем объекты в базе с помощью метода bulk_create()
         Product.objects.bulk_create(product_for_create)
 
@@ -137,8 +151,17 @@ class Command(BaseCommand):
         # Обход фикстуры отзывов
         for feedback in Command.json_read_feedback():
             feedback_for_create.append(Feedback(pk=feedback['pk'],
-                                               name=feedback['fields']['name'],
-                                               email=feedback['fields']['email'],
-                                               content=feedback['fields']['content']))
+                                                name=feedback['fields']['name'],
+                                                email=feedback['fields']['email'],
+                                                content=feedback['fields']['content']))
         # Создаем объекты в базе с помощью метода bulk_create()
         Feedback.objects.bulk_create(feedback_for_create)
+
+        # # Обход фикстуры отзывов
+        # for perm in Command.json_read_user_permission_data():
+        #     perms_for_create.append(auth.models.Permission(pk=perm['pk'],
+        #                                     name=perm['fields']['name'],
+        #                                     content_type=ContentType.objects.get(pk=perm['fields']['content_type']),
+        #                                     codename=perm['fields']['codename']))
+        # # Создаем объекты в базе с помощью метода bulk_create()
+        # auth.models.Permission.objects.bulk_create(perms_for_create)

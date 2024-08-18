@@ -14,7 +14,7 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='Цена за покупку')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, verbose_name='Признак публикации')
     slug = models.CharField(max_length=150, verbose_name='slug', null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name="владелец", **NULLABLE)
 
@@ -25,6 +25,11 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ('name',)
+        permissions = [
+            ("set_published", "Can publish product"),
+            ("set_description", "Can edit description product"),
+            ("set_category", "Can change category product"),
+        ]
 
 
 class Category(models.Model):

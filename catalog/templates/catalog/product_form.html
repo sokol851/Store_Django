@@ -25,27 +25,52 @@
             </button>
         </div>
     </div>
-
     <div class="card col-6 bg-secondary-subtle">
-        <div class="card-header bg-secondary-subtle">
-            <h3 class="card-title">
-                {% if object %}
-                Измение версии
-                {% else %}
-                Добавить версию
-                {% endif %}
-            </h3>
-        </div>
+        {% if object %}
+            {% if user == object.owner or user.is_superuser %}
+            <div class="card-header bg-secondary-subtle">
+                <h3 class="card-title">
+                    {% if object %}
+                    Измение версии
+                    {% else %}
+                    Добавить версию
+                    {% endif %}
+                </h3>
+            </div>
 
-        <div class="card-body mb-3 mt-3">
-            {{ formset.management_form }}
-            {% for form in formset.forms %}
-            {{ form.as_p }}
-            {% if not forloop.last %}
-            <hr>
+            <div class="card-body mb-3 mt-3">
+                {{ formset.management_form }}
+                {% for form in formset.forms %}
+                {{ form.as_p }}
+                {% if not forloop.last %}
+                <hr>
+                {% endif %}
+                {% endfor %}
+            </div>
             {% endif %}
-            {% endfor %}
-        </div>
+
+        {% else %}
+            <div class="card-header bg-secondary-subtle">
+                <h3 class="card-title">
+                    {% if object %}
+                    Измение версии
+                    {% else %}
+                    Добавить версию
+                    {% endif %}
+                </h3>
+            </div>
+
+            <div class="card-body mb-3 mt-3">
+                {{ formset.management_form }}
+                {% for form in formset.forms %}
+                {{ form.as_p }}
+                {% if not forloop.last %}
+                <hr>
+                {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
+
 </form>
 {% endblock %}
