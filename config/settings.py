@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG')
+DEBUG = config('DEBUG') == "True"
 
 ALLOWED_HOSTS = []
 
@@ -151,12 +151,12 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 SITE_URL = config("SITE_URL")
 
-CACHE_ENABLED = config('CACHE_ENABLED')
+CACHE_ENABLED = config('CACHE_ENABLED') == "True"
 
 if CACHE_ENABLED:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": config('LOCATION'),
+            "LOCATION": config('LOCATION_REDIS'),
         }
     }
