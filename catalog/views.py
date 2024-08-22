@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.cache import cache
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect
@@ -46,6 +48,20 @@ class FeedbackListView(ListView):
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     slug_url_kwarg = 'the_slug_prod'
+
+    # def get_context_data(self, **kwargs):
+    #     content_data = super().get_context_data()
+    #     if settings.CACHE_ENABLED:
+    #         key = f'version_list_{self.object.pk}'
+    #         version_list = cache.get(key)
+    #         if version_list is None:
+    #             version_list = Version.objects.all()
+    #             cache.set(key, version_list)
+    #     else:
+    #         version_list = Version.objects.all()
+    #
+    #     content_data['versions'] = version_list
+    #     return content_data
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -121,7 +137,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_form_class(self):
         user = self.request.user
-        if user == self.object.owner:
+        if user == self.object.owner or user.is_superuser:
             return ProductForm
         if user.has_perm('catalog.set_published') and user.has_perm(
                 'catalog.set_description') and user.has_perm('catalog.set_category'):
