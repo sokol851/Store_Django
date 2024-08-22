@@ -5,6 +5,7 @@ from catalog.models import Product, Version, Feedback
 
 
 class StyleFormMixin:
+    """ Миксин для изменения аттрибутов стилей. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -16,6 +17,7 @@ class StyleFormMixin:
 
 
 class ProductForm(StyleFormMixin, forms.ModelForm):
+    """ Форма для продукта """
     list_stop_word = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
                       'радар']
 
@@ -26,6 +28,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         # exclude = ('is_active',)
 
     def clean_name(self):
+        """ Фильтрация запрещённых слов в названии """
         clean_data = self.cleaned_data['name']
 
         for word in self.list_stop_word:
@@ -34,6 +37,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         return clean_data
 
     def clean_description(self):
+        """ Фильтрация запрещённых слов в описании """
         clean_data = self.cleaned_data['description']
 
         for word in self.list_stop_word:
@@ -43,18 +47,21 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 
 
 class VersionForm(StyleFormMixin, forms.ModelForm):
+    """ Форма для версий """
     class Meta:
         model = Version
         fields = '__all__'
 
 
 class FeedbackForm(StyleFormMixin, forms.ModelForm):
+    """ Форма для обратной связи """
     class Meta:
         model = Feedback
         fields = ('name', 'email', 'content')
 
 
 class ProdModeratorForm(StyleFormMixin, forms.ModelForm):
+    """ Форма редактирования продукта для модераторов """
     class Meta:
         model = Product
         fields = ("category", "description", "is_active",)
