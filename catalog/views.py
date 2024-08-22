@@ -7,7 +7,8 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 from pytils.translit import slugify
 
 from catalog.forms import ProductForm, VersionForm, FeedbackForm, ProdModeratorForm
-from catalog.models import Contacts, Product, Feedback, Version
+from catalog.models import Contacts, Product, Feedback, Version, Category
+from catalog.services import get_data_from_cache
 
 
 class ProductListView(LoginRequiredMixin, ListView):
@@ -17,6 +18,7 @@ class ProductListView(LoginRequiredMixin, ListView):
         context_data = super().get_context_data(**kwargs)
         product_list = Product.objects.all()
         context_data['product_versions'] = {}
+        context_data['product_list'] = get_data_from_cache(Product, 'product_list')
         for product in product_list:
             if len(product.versions.filter(is_current=True)):
                 version = product.versions.filter(is_current=True).last()
@@ -121,7 +123,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_form_class(self):
         user = self.request.user
-        if user == self.object.owner:
+        if user == self.object.owner or user.is_superuser:
             return ProductForm
         if user.has_perm('catalog.set_published') and user.has_perm(
                 'catalog.set_description') and user.has_perm('catalog.set_category'):
@@ -147,3 +149,12 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.is_superuser
+
+
+class CategoryListView(ListView):
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['category_list'] = get_data_from_cache(Category, 'category_list')
+        return context_data

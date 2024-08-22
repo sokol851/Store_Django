@@ -29,6 +29,9 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'catalog:contacts' %}">Контакты</a>
     </div>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'catalog:category_list' %}">Список категорий</a>
+    </div>
 
     <div class="container-fluid">
         {% if user.is_authenticated %}
