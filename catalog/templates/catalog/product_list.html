@@ -14,7 +14,7 @@
             <center>
                 <div class="row">
                     <div class="col-6" style="max-width: 500px; height: 400px;">
-                        <a href="{% url 'catalog:product_page' object.slug %}"><h2>{{object.name}}</h2></a>
+                        <a href="{% url 'catalog:product_page' object.slug %}" class="link-secondary link-underline-opacity-0"><h2>{{object.name}}</h2></a>
                         <a href="{% url 'catalog:product_page' object.slug %}">
                             <img width="400" height="300" src="{%refactor object.preview%}" class="img-fluid"
                                  style="width: auto; max-height: 350px;">
@@ -23,7 +23,7 @@
                     <div class="col-6 mt-3">
                         <h6>Категория: {{object.category.name}}</h6>
                         <h5>{{object.description | slice:"100"}}... <a
-                                href="{% url 'catalog:product_page' object.slug %}">ещё</a></h5>
+                                href="{% url 'catalog:product_page' object.slug %}" class="link-secondary link-underline-opacity-0">ещё</a></h5>
                         <div class="text-center bg-secondary-subtle form-control">
                             {% if object in product_versions %}
                             <p class="mt-1 mb-1">
