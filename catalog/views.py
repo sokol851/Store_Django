@@ -18,7 +18,6 @@ class ProductListView(LoginRequiredMixin, ListView):
         context_data = super().get_context_data(**kwargs)
         product_list = Product.objects.all()
         context_data['product_versions'] = {}
-        context_data['product_list'] = get_data_from_cache(Product, 'product_list')
         for product in product_list:
             if len(product.versions.filter(is_current=True)):
                 version = product.versions.filter(is_current=True).last()
