@@ -26,7 +26,8 @@ class ProductListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(is_active=True)
+        if not self.request.user.groups.filter(name='Moderator').exists() and not self.request.user.is_superuser:
+            queryset = queryset.filter(is_active=True)
         return queryset
 
 

@@ -25,7 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG') == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [config('ALLOWED_HOSTS_1')]
 
 # Application definition
 
@@ -79,9 +79,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('NAME_BASE'),
-        'USER': config('USER_BASE'),
-        "PASSWORD": config('PASSWORD_BASE')
+        'HOST': config('POSTGRES_HOST'),
+        'PORT': config('POSTGRES_PORT'),
+        'NAME': config('POSTGRES_DB'),
+        'USER': config('POSTGRES_USER'),
+        "PASSWORD": config('POSTGRES_PASSWORD')
     }
 }
 
@@ -143,7 +145,7 @@ EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = config('EMAIL_USE_SSL')
-EMAIL_USE_TCL = config('EMAIL_USE_TCL')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 SERVER_EMAIL = EMAIL_HOST_USER
