@@ -1,0 +1,59 @@
+services:
+  redis:
+    image: redis:latest
+    restart: on-failure
+    expose:
+      - "6379"
+    networks:
+      - store
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  db:
+    image: postgres:16-alpine
+    restart: on-failure
+    networks:
+      - store
+    env_file:
+      - .env
+    expose:
+      - "5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "-c", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    tty: true
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - media_volume:/app/media
+      - static_volume:/app/static
+    networks:
+      - store
+
+networks:
+  store:
+    driver: bridge
+
+volumes:
+  pg_data:
+  media_volume:
+  static_volume:
